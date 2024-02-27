@@ -38,7 +38,7 @@ Make sure you have the following installed before setting up the project:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.comhellojeeban/bookstore-boot-app.git
+   git clone https://github.com/hellojeeban/bookstore-boot-app.git
    ```
 
 2. Open the project in your IDE.
