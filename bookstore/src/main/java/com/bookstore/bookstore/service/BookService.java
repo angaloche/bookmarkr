@@ -2,6 +2,7 @@ package com.bookstore.bookstore.service;
 
 import java.util.List;
 
+import com.bookstore.bookstore.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +28,9 @@ public class BookService {
 
 	public void deleteBookById(int id) {
 		bookRepo.deleteById(id);
+	}
+
+	public List<Book> getAllBook(User user) {
+		return bookRepo.findByUser(user);
 	}
 }

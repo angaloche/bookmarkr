@@ -44,14 +44,17 @@ public class BookController {
 	}
 
 	@GetMapping("/available_books")
-	public ModelAndView availableBook() {
-		List<Book> listOfBook = bookService.getAllBook();
+	public ModelAndView availableBook(@AuthenticationPrincipal UserDetails userDetails) {
+		User user = getUser(userDetails);
+		List<Book> listOfBook = bookService.getAllBook(user);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("booklist");
 		mav.addObject("book", listOfBook);
 		return mav;
-		// or
-		// return new ModelAndView("booklist", "book", listOfBook);
+	}
+
+	private User getUser(UserDetails userDetails) {
+		return userRepository.findByUsername(userDetails.getUsername());
 	}
 
 	@PostMapping("/save")
@@ -60,32 +63,16 @@ public class BookController {
 		return "redirect:/available_books";
 	}
 
-	/*@GetMapping("/my_books")
-	public ModelAndView getMyBook() {
-		List<MyBookList> listOfBook = myBookListService.getAllBook();
-		return new ModelAndView("mybooks", "mybook", listOfBook);
-	}*/
-
 	@GetMapping("/my_books")
 	public ModelAndView getMyBooks(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-		User user = userRepository.findByUsername(userDetails.getUsername());
+		User user = getUser(userDetails);
 		return new ModelAndView("mybooks", "mybook",  mybookService.getAllMyBooks(user));
 	}
 
-
-	/*@RequestMapping("/mylist/{id}")
-	public String getMyList(@PathVariable("id") int id,@AuthenticationPrincipal UserDetails userDetails
-	) {
-		Book b = bookService.getBookById(id);
-		MyBookList ml = new MyBookList(b.getId(), b.getName(), b.getAuthor(), b.getPrice());
-		myBookListService.saveMyBooks(ml);
-		return "redirect:/my_books";
-	}*/
 	@RequestMapping("/mylist/{id}")
 	public String getMyList(@PathVariable("id") int id, @AuthenticationPrincipal UserDetails userDetails) {
-		User user = userRepository.findByUsername(userDetails.getUsername());
+		User user = getUser(userDetails);
 		MyBookList myBookList = new MyBookList();
-		// Remplir les détails du livre
 		Book book = bookService.getBookById(id);
 		myBookList.setUser(user);
 		myBookList.setAuthor(book.getAuthor());
@@ -96,22 +83,19 @@ public class BookController {
 		return "redirect:/my_books";
 	}
 
-
-
-	/*@RequestMapping("/deletebook/{id}")
+	@RequestMapping("/deletebook/{id}")
 	public String deleteBookById(@PathVariable("id") int id,@AuthenticationPrincipal UserDetails userDetails
 	) {
 		bookService.deleteBookById(id);
 		return "redirect:/available_books";
-	}*/
+	}
 
 	@RequestMapping("/deleteMyList/{id}")
 	public String deleteMyList(@PathVariable("id") int id, @AuthenticationPrincipal UserDetails userDetails) {
-		User user = userRepository.findByUsername(userDetails.getUsername());
+		User user = getUser(userDetails);
 		mybookService.deleteById(id, user);
 		return "redirect:/my_books";
 	}
-
 
 	@RequestMapping("/editBook/{id}")
 	public String editBook(@PathVariable("id") int id, Model model) {
