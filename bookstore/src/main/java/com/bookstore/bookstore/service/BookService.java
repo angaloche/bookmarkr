@@ -3,6 +3,7 @@ package com.bookstore.bookstore.service;
 import java.util.List;
 
 import com.bookstore.bookstore.entity.User;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,26 +12,23 @@ import com.bookstore.bookstore.repository.BookRepository;
 
 @Service
 public class BookService {
-	@Autowired
-	BookRepository bookRepo;
+    @Autowired
+    BookRepository bookRepository;
 
-	public void save(Book b) {
-		bookRepo.save(b);
-	}
+    public void save(final Book b) {
+        bookRepository.save(b);
+    }
 
-	public List<Book> getAllBook() {
-		return bookRepo.findAll();
-	}
+    public Book getBookById(final int id) {
+        return bookRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
+    }
 
-	public Book getBookById(int id) {
-		return bookRepo.findById(id).get();
-	}
+    public void deleteBookById(final int id) {
+        bookRepository.deleteById(id);
+    }
 
-	public void deleteBookById(int id) {
-		bookRepo.deleteById(id);
-	}
-
-	public List<Book> getAllBook(User user) {
-		return bookRepo.findByUser(user);
-	}
+    public List<Book> getAllBookForUser(final User user) {
+        return bookRepository.findByUser(user);
+    }
 }

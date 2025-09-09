@@ -44,23 +44,23 @@ public class BookController {
     }
 
     @GetMapping("/available_books")
-    public ModelAndView availableBook(@AuthenticationPrincipal UserDetails userDetails) {
-        User user = getUser(userDetails);
-        List<Book> listOfBook = bookService.getAllBook(user);
-        ModelAndView mav = new ModelAndView();
+    public ModelAndView availableBook(final @AuthenticationPrincipal UserDetails userDetails) {
+        final User user = getUser(userDetails);
+        final List<Book> listOfBook = bookService.getAllBookForUser(user);
+        final ModelAndView mav = new ModelAndView();
         mav.setViewName("booklist");
         mav.addObject("book", listOfBook);
         return mav;
     }
 
-    private User getUser(UserDetails userDetails) {
+    private User getUser(final UserDetails userDetails) {
         return userRepository.findByUsername(userDetails.getUsername());
     }
 
     @PostMapping("/save")
-    public String addBook(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute Book b) {
-        b.setUser(getUser(userDetails));
-        bookService.save(b);
+    public String addBook(final @AuthenticationPrincipal UserDetails userDetails, final @ModelAttribute Book book) {
+        book.setUser(getUser(userDetails));
+        bookService.save(book);
         return "redirect:/available_books";
     }
 
@@ -71,7 +71,7 @@ public class BookController {
     }
 
     @RequestMapping("/mylist/{id}")
-    public String getMyList(@PathVariable("id") int id, @AuthenticationPrincipal UserDetails userDetails) {
+    public String getMyList(@PathVariable("id") int id, final @AuthenticationPrincipal UserDetails userDetails) {
         User user = getUser(userDetails);
         MyBookList myBookList = new MyBookList();
         Book book = bookService.getBookById(id);
@@ -85,14 +85,14 @@ public class BookController {
     }
 
     @RequestMapping("/deletebook/{id}")
-    public String deleteBookById(@PathVariable("id") int id, @AuthenticationPrincipal UserDetails userDetails
+    public String deleteBookById(@PathVariable("id") int id, final @AuthenticationPrincipal UserDetails userDetails
     ) {
         bookService.deleteBookById(id);
         return "redirect:/available_books";
     }
 
     @RequestMapping("/deleteMyList/{id}")
-    public String deleteMyList(@PathVariable("id") int id, @AuthenticationPrincipal UserDetails userDetails) {
+    public String deleteMyList(@PathVariable("id") int id, final @AuthenticationPrincipal UserDetails userDetails) {
         User user = getUser(userDetails);
         mybookService.deleteById(id, user);
         return "redirect:/my_books";
