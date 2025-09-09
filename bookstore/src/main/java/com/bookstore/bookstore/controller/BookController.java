@@ -23,84 +23,85 @@ import com.bookstore.bookstore.service.MyBookService;
 
 @Controller
 public class BookController {
-	@Autowired
-	BookService bookService;
+    @Autowired
+    BookService bookService;
 
-	@Autowired
-	MyBookService mybookService;
+    @Autowired
+    MyBookService mybookService;
 
-	@Autowired
-	UserRepository userRepository;
+    @Autowired
+    UserRepository userRepository;
 
 
-	@GetMapping("/")
-	public String home() {
-		return "home";
-	}
+    @GetMapping("/")
+    public String home() {
+        return "home";
+    }
 
-	@GetMapping("/book_register")
-	public String bookRegister() {
-		return "bookregister";
-	}
+    @GetMapping("/book_register")
+    public String bookRegister() {
+        return "bookregister";
+    }
 
-	@GetMapping("/available_books")
-	public ModelAndView availableBook(@AuthenticationPrincipal UserDetails userDetails) {
-		User user = getUser(userDetails);
-		List<Book> listOfBook = bookService.getAllBook(user);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("booklist");
-		mav.addObject("book", listOfBook);
-		return mav;
-	}
+    @GetMapping("/available_books")
+    public ModelAndView availableBook(@AuthenticationPrincipal UserDetails userDetails) {
+        User user = getUser(userDetails);
+        List<Book> listOfBook = bookService.getAllBook(user);
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("booklist");
+        mav.addObject("book", listOfBook);
+        return mav;
+    }
 
-	private User getUser(UserDetails userDetails) {
-		return userRepository.findByUsername(userDetails.getUsername());
-	}
+    private User getUser(UserDetails userDetails) {
+        return userRepository.findByUsername(userDetails.getUsername());
+    }
 
-	@PostMapping("/save")
-	public String addBook(@ModelAttribute Book b) {
-		bookService.save(b);
-		return "redirect:/available_books";
-	}
+    @PostMapping("/save")
+    public String addBook(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute Book b) {
+        b.setUser(getUser(userDetails));
+        bookService.save(b);
+        return "redirect:/available_books";
+    }
 
-	@GetMapping("/my_books")
-	public ModelAndView getMyBooks(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-		User user = getUser(userDetails);
-		return new ModelAndView("mybooks", "mybook",  mybookService.getAllMyBooks(user));
-	}
+    @GetMapping("/my_books")
+    public ModelAndView getMyBooks(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        User user = getUser(userDetails);
+        return new ModelAndView("mybooks", "mybook", mybookService.getAllMyBooks(user));
+    }
 
-	@RequestMapping("/mylist/{id}")
-	public String getMyList(@PathVariable("id") int id, @AuthenticationPrincipal UserDetails userDetails) {
-		User user = getUser(userDetails);
-		MyBookList myBookList = new MyBookList();
-		Book book = bookService.getBookById(id);
-		myBookList.setUser(user);
-		myBookList.setAuthor(book.getAuthor());
-		myBookList.setName(book.getName());
-		myBookList.setPrice(book.getPrice());
+    @RequestMapping("/mylist/{id}")
+    public String getMyList(@PathVariable("id") int id, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = getUser(userDetails);
+        MyBookList myBookList = new MyBookList();
+        Book book = bookService.getBookById(id);
+        myBookList.setUser(user);
+        myBookList.setAuthor(book.getAuthor());
+        myBookList.setName(book.getName());
+        myBookList.setPrice(book.getPrice());
 
-		mybookService.saveMyBooks(myBookList);
-		return "redirect:/my_books";
-	}
+        mybookService.saveMyBooks(myBookList);
+        return "redirect:/my_books";
+    }
 
-	@RequestMapping("/deletebook/{id}")
-	public String deleteBookById(@PathVariable("id") int id,@AuthenticationPrincipal UserDetails userDetails
-	) {
-		bookService.deleteBookById(id);
-		return "redirect:/available_books";
-	}
+    @RequestMapping("/deletebook/{id}")
+    public String deleteBookById(@PathVariable("id") int id, @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        bookService.deleteBookById(id);
+        return "redirect:/available_books";
+    }
 
-	@RequestMapping("/deleteMyList/{id}")
-	public String deleteMyList(@PathVariable("id") int id, @AuthenticationPrincipal UserDetails userDetails) {
-		User user = getUser(userDetails);
-		mybookService.deleteById(id, user);
-		return "redirect:/my_books";
-	}
+    @RequestMapping("/deleteMyList/{id}")
+    public String deleteMyList(@PathVariable("id") int id, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = getUser(userDetails);
+        mybookService.deleteById(id, user);
+        return "redirect:/my_books";
+    }
 
-	@RequestMapping("/editBook/{id}")
-	public String editBook(@PathVariable("id") int id, Model model) {
-		Book b = bookService.getBookById(id);
-		model.addAttribute("book", b);
-		return "editbook";
-	}
+    @RequestMapping("/editBook/{id}")
+    public String editBook(@PathVariable("id") int id, Model model) {
+        Book b = bookService.getBookById(id);
+        model.addAttribute("book", b);
+        return "editbook";
+    }
 }
