@@ -22,7 +22,7 @@ public class MyBookList {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	public MyBookList(int id, String name, String author, double price) {
+	public MyBookList(final int id, final String name, final String author, final double price) {
 		super();
 		this.id = id;
 		this.name = name;
