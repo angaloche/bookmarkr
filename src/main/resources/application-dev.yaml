@@ -1,0 +1,12 @@
+server:
+  port=8091
+spring:
+  datasource:
+    name: bookstore
+    url: jdbc:mysql://search-service:3306/bookstore?ServerTimezone=UTC
+    username: myappuser
+    password: mypassword
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa.hibernate.ddl-auto: update
+  jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+
