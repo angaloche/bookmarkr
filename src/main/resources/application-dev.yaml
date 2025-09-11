@@ -1,5 +1,5 @@
 server:
-  port=8091
+  port: 8091
 spring:
   datasource:
     name: bookstore
@@ -7,6 +7,10 @@ spring:
     username: myappuser
     password: mypassword
     driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa.hibernate.ddl-auto: update
-  jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
 
