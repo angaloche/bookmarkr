@@ -29,8 +29,8 @@
 					<li class="nav-item"><a class="nav-link active"
 						aria-current="page" href="/">Home</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="available_books">Available Books</a></li>
-					<li class="nav-item"><a class="nav-link" href="my_books">My
+						href="/available_books">Available Books q</a></li>
+					<li class="nav-item"><a class="nav-link" href="/my_books">My
 							Book</a></li>
 				</ul>
 				<div>
@@ -64,6 +64,11 @@
 				<label for="price" class="form-label">Book Price</label> <input
 					name="price" type="text" th:value="${book.price}"
 					class="form-control">
+			</div>
+
+			<div class="mb-3">
+				<label for="notes" class="form-label">Book Price</label>
+				<textarea th:text="${book.notes}" class="form-control" name="notes"></textarea>
 			</div>
 			<div class="mb-3 text-center my-2">
 				<button type="submit" class="btn btn-primary">Submit</button>

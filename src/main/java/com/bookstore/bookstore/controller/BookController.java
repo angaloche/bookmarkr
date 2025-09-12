@@ -79,6 +79,7 @@ public class BookController {
         myBookList.setAuthor(book.getAuthor());
         myBookList.setName(book.getName());
         myBookList.setPrice(book.getPrice());
+        myBookList.setNotes(book.getNotes());
 
         mybookService.saveMyBooks(myBookList);
         return "redirect:/my_books";

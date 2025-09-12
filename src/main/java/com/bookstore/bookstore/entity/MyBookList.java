@@ -17,17 +17,19 @@ public class MyBookList {
 	private String name;
 	private String author;
 	private double price;
+	private String notes;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	public MyBookList(final int id, final String name, final String author, final double price) {
+	public MyBookList(final int id, final String name, final String author, final double price,final String notes) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.author = author;
 		this.price = price;
+		this.notes = notes;
 	}
 
 	public MyBookList() {
