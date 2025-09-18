@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Télécharger une vidéo YouTube</title>
+</head>
+<body>
+<h1>Entrer l'URL de la vidéo YouTube</h1>
+<form th:action="@{/youtube/download}" method="post">
+    <input type="text" name="url" placeholder="https://youtube.com/..." style="width:400px"/>
+    <button type="submit">Télécharger</button>
+</form>
+</body>
+</html>

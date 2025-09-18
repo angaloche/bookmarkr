@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Résultat du téléchargement</title>
+</head>
+<body>
+<h1>Résultat :</h1>
+
+<!-- Message principal -->
+<p th:text="${message}"></p>
+
+<!-- Afficher le chemin et lien si succès -->
+<div th:if="${status == 'ok'}">
+  <p>Fichier téléchargé : <span th:text="${path}"></span></p>
+  <p>
+    <a th:href="@{'/downloads/' + ${#strings.substring(path, path.lastIndexOf('/') + 1)}}"
+       download>
+      Télécharger le fichier
+    </a>
+  </p>
+</div>
+
+<!-- Afficher une section erreur si échec -->
+<div th:if="${status == 'error'}">
+  <p style="color:red;">Erreur lors du téléchargement.</p>
+</div>
+
+<!-- Lien pour retourner au formulaire -->
+<a th:href="@{/youtube/form}">Retour</a>
+
+</body>
+</html>
