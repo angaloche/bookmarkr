@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk
+FROM ubuntu:22.04
 
 WORKDIR /app
 
