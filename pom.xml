@@ -74,55 +74,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <!--<plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.43.4</version>
-                <configuration>
-                    <dockerCmd>docker</dockerCmd>
-                    <images>
-                        <image>
-                            <name>10.0.0.119:5000/ahmed_personnel/${project.name}</name>
-                            <build>
-                                <dockerFile>${project.basedir}/Dockerfile</dockerFile>
-                                <contextDir>${project.basedir}</contextDir>
-                                <args>
-                                    <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
-                                </args>
-                                <tags>
-                                    <tag>build-${maven.build.timestamp}</tag>
-                                    <tag>latest</tag>
-                                </tags>
-                            </build>
-                            <run>
-                                <ports>
-                                    <port>8080:8080</port>
-                                </ports>
-                            </run>
-                        </image>
-                    </images>
-                    <registry>10.0.0.119:5000</registry>
-                    <serverId>docker-registry</serverId>
-                    <allowInsecureRegistries>true</allowInsecureRegistries>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>build-image</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>push-image</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>push</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>-->
-
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
@@ -139,7 +90,6 @@
                 <configuration>
                     <repository>${docker.repository}</repository>
                     <tag>${docker.tag}</tag>
-                    <tag>latest</tag>
                     <dockerfile>${project.basedir}/Dockerfile</dockerfile>
                     <contextDirectory>${project.basedir}</contextDirectory>
                     <buildArgs>
