@@ -2,11 +2,13 @@ FROM ubuntu:22.04
 
 WORKDIR /app
 
-# Installer Python 3
-RUN apt-get update && apt-get install -y python3 python3-pip && rm -rf /var/lib/apt/lists/*
-
-# Installer les modules Python nécessaires
-RUN pip3 install --break-system-packages pytubefix
+RUN apt-get update && apt-get install -y \
+    python3-pip \
+    python3-dev \
+    build-essential \
+    libffi-dev \
+    libssl-dev \
+    && pip3 install --no-cache-dir pytubefix
 
 # Copier ton JAR
 ARG JAR_FILE
