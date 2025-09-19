@@ -1,6 +1,4 @@
-app:
-  download:
-    path: downloads
+
 server:
   port: 8091
 spring:

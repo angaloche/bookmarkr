@@ -1,4 +1,4 @@
-FROM gcr.io/distroless/java21
+FROM 10.0.0.119:5000/java21-python-base
 
 ARG JAR_FILE
 
