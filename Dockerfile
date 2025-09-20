@@ -1,19 +1,16 @@
-FROM ubuntu:22.04
+FROM python:3.12-slim
 
 WORKDIR /app
 
-# Installer Java et Python avec leurs dépendances
+# Installer Java + dépendances nécessaires
 RUN apt-get update && apt-get install -y \
     openjdk-17-jdk \
-    python3 \
-    python3-pip \
-    python3-dev \
     build-essential \
     libffi-dev \
     libssl-dev \
     curl \
     wget \
-    && pip3 install --no-cache-dir pytubefix \
+    && pip install --no-cache-dir pytubefix \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -21,8 +18,8 @@ RUN apt-get update && apt-get install -y \
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 ENV PATH="$JAVA_HOME/bin:$PATH"
 
-# Vérifier que Java et Python sont correctement installés
-RUN java -version && python3 --version
+# Vérifier que Java et Python sont installés
+RUN java -version && python --version
 
 # Copier le JAR
 ARG JAR_FILE
