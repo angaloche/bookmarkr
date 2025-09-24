@@ -1,6 +1,6 @@
-# Spring Boot Book Store Application
+# Spring Boot Bookmarkr Application
 
-This is a sample Spring Boot application for a book store, implementing CRUD (Create, Read, Update, Delete) operations with a beautiful and responsive user interface using Thymeleaf.
+This is a sample Spring Boot application for a bookmarkr, implementing CRUD (Create, Read, Update, Delete) operations with a beautiful and responsive user interface using Thymeleaf.
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -16,7 +16,7 @@ This is a sample Spring Boot application for a book store, implementing CRUD (Cr
 
 ## Introduction
 
-This Spring Boot Book Store application provides a simple yet powerful platform for managing books. It is built using the Spring Boot framework, Thymeleaf for server-side templating, and Bootstrap for a beautiful and responsive user interface.
+This Spring Boot Bookmarkr application provides a simple yet powerful platform for managing books. It is built using the Spring Boot framework, Thymeleaf for server-side templating, and Bootstrap for a beautiful and responsive user interface.
 
 ## Features
 
@@ -69,7 +69,7 @@ The application will start at `http://localhost:8080`.
 
 ## Usage
 
-Visit `http://localhost:8080` in your web browser to access the Book Store application. Use the intuitive web interface to perform CRUD operations on books.
+Visit `http://localhost:8080` in your web browser to access the Bookmarkr application. Use the intuitive web interface to perform CRUD operations on books.
 
 ## Project Structure
 
