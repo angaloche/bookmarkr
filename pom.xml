@@ -90,6 +90,7 @@
                 <configuration>
                     <repository>${docker.repository}</repository>
                     <tag>${docker.tag}</tag>
+                    <tag>${maven.build.timestamp}</tag>
                     <dockerfile>${project.basedir}/Dockerfile</dockerfile>
                     <contextDirectory>${project.basedir}</contextDirectory>
                     <buildArgs>
