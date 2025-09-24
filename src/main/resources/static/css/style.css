@@ -1,0 +1,187 @@
+/* Global styles for Bookstore app */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Profile page styles */
+.profile-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+}
+
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    margin-top: 2rem;
+}
+
+
+.login-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+.card-header {
+    background: transparent;
+    border-bottom: none;
+    padding: 25px 25px 5px;
+}
+.card-body {
+    padding: 25px;
+}
+.form-control {
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+.form-control:focus {
+    box-shadow: none;
+    border-color: #764ba2;
+}
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: 600;
+}
+.btn-primary:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+.input-group-text {
+    background: transparent;
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+}
+.form-control.password {
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+}
+.brand-name {
+    color: #764ba2;
+    font-size: 2rem;
+    font-weight: bold;
+}
+.error-message {
+    color: #dc3545;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* ---------------- Login page styles ---------------- */
+
+.login-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.card-header {
+    background: transparent;
+    border-bottom: none;
+    padding: 25px 25px 5px;
+}
+
+.card-body {
+    padding: 25px;
+}
+
+.form-control {
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #764ba2;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.input-group-text {
+    background: transparent;
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+}
+
+.form-control.password {
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+}
+
+.brand-name {
+    color: #764ba2;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+
+.form-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    background-color: #fff;
+}
+.form-floating {
+    margin-bottom: 1rem;
+}
+.password-toggle {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.youtube-form input[type="text"] {
+    width: 400px;
+    max-width: 100%; /* makes it responsive */
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+.youtube-form button {
+    margin-left: 10px;
+    padding: 10px 20px;
+}

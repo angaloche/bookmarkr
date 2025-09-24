@@ -1,29 +1,62 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Résultat du téléchargement</title>
+    <meta charset="UTF-8">
+    <title>Résultat du téléchargement</title>
+    <!-- Bootstrap CSS -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous">
 </head>
 <body>
-<h1>Résultat :</h1>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Bookmarkr</a>
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link active"
+                                        aria-current="page" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link"
+                                        href="available_books">Available Books</a></li>
+                <li class="nav-item"><a class="nav-link" href="my_books">My
+                    Book</a></li>
+            </ul>
+            <div>
+                <a class="nav-link text-white" href="book_register">New Book
+                    Register</a>
+                <form th:action="@{/logout}" method="post" class="m-0">
+                    <button type="submit" class="btn btn-outline-light">
+                        <i class="fas fa-sign-out-alt me-1"></i>Déconnexion
+                    </button>
+                </form>
 
-<!-- Message principal -->
+
+            </div>
+        </div>
+    </div>
+</nav>
+
 <p th:text="${message}"></p>
-
-<!-- Afficher le chemin et lien si succès -->
 <div th:if="${status == 'ok'}">
-  <p>Fichier téléchargé : <span th:text="${path}"></span></p>
-  <p>
-    <a th:href="@{'/downloads/' + ${#strings.substring(path, path.lastIndexOf('/') + 1)}}"
-       download>
-      Télécharger le fichier
-    </a>
-  </p>
+    <p>
+        <a th:href="@{'/downloads/' + ${#strings.substring(path, path.lastIndexOf('/') + 1)}}"
+           download>
+            Télécharger le fichier
+        </a>
+    </p>
 </div>
 
 <!-- Afficher une section erreur si échec -->
 <div th:if="${status == 'error'}">
-  <p style="color:red;">Erreur lors du téléchargement.</p>
+    <p style="color:red;">Erreur lors du téléchargement.</p>
 </div>
 
 <!-- Lien pour retourner au formulaire -->

@@ -12,26 +12,26 @@ import com.bookstore.bookstore.repository.MyBookRepository;
 
 @Service
 public class MyBookService {
-	@Autowired
-	MyBookRepository myBookRepository;
+    @Autowired
+    MyBookRepository myBookRepository;
 
-	public void saveMyBooks(final MyBookList book) {
-		myBookRepository.save(book);
-	}
+    public void saveMyBooks(final MyBookList book) {
+        myBookRepository.save(book);
+    }
 
-	public List<MyBookList> getAllBook() {
-		return myBookRepository.findAll();
-	}
+    public List<MyBookList> getAllBook() {
+        return myBookRepository.findAll();
+    }
 
-	public List<MyBookList> getAllBooksForUser(final User user) {
-		return myBookRepository.findByUser(user);
-	}
+    public List<MyBookList> getAllBooksForUser(final User user) {
+        return myBookRepository.findByUser(user);
+    }
 
-	public void deleteById(final int id, final User user) {
-		MyBookList book = myBookRepository.findById(id).orElse(null);
-		if (book != null && Objects.equals(book.getUser().getId(), user.getId())) {
-			myBookRepository.deleteById(id);
-		}
-	}
+    public void deleteById(final int id, final User user) {
+        MyBookList book = myBookRepository.findById(id).orElse(null);
+        if (book != null && Objects.equals(book.getUser().getId(), user.getId())) {
+            myBookRepository.deleteById(id);
+        }
+    }
 
 }

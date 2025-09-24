@@ -21,6 +21,8 @@ import java.util.regex.Pattern;
 public class YoutubeDownloadService {
 
     private static final Logger logger = LoggerFactory.getLogger(YoutubeDownloadService.class);
+    public static final String UTF_8 = "UTF-8";
+    public static final String PYTHON_3 = "python3";
     private final Path tempDir;
     private final Path downloadDir;
     private final ObjectMapper objectMapper;
@@ -50,6 +52,7 @@ public class YoutubeDownloadService {
 
     /**
      * Télécharge une vidéo YouTube depuis une URL
+     *
      * @param url URL de la vidéo YouTube
      * @return Le chemin du fichier téléchargé (pour compatibilité avec le contrôleur existant)
      * @throws RuntimeException si une erreur survient
@@ -71,10 +74,10 @@ public class YoutubeDownloadService {
 
             // Contenu du script Python avec pytubefix
             String pythonScript = createPythonScript(url, downloadDir.toAbsolutePath().toString());
-            Files.write(tempScript, pythonScript.getBytes("UTF-8"));
+            Files.write(tempScript, pythonScript.getBytes(UTF_8));
 
             // Exécuter le script
-            ProcessBuilder pb = new ProcessBuilder("python3", tempScript.toString());
+            ProcessBuilder pb = new ProcessBuilder(PYTHON_3, tempScript.toString());
             pb.redirectErrorStream(true);
 
             process = pb.start();
@@ -153,108 +156,108 @@ public class YoutubeDownloadService {
      */
     private String createPythonScript(String url, String downloadPath) {
         return String.format("""
-            from pytubefix import YouTube
-            from pytubefix.cli import on_progress
-            import json
-            import sys
-            import os
-            from pathlib import Path
-            import traceback
-            
-            def download_video():
-                try:
-                    # Créer le dossier de téléchargement
-                    download_dir = Path('%s')
-                    download_dir.mkdir(exist_ok=True, parents=True)
-                    
-                    # URL à télécharger
-                    url = '%s'
-                    
-                    print(f"Démarrage du téléchargement: {url}")
-                    
-                    # Créer l'objet YouTube avec callback de progression
-                    yt = YouTube(url, on_progress_callback=on_progress)
-                    
-                    # Récupérer les informations de la vidéo
-                    title = yt.title
-                    length = yt.length
-                    author = yt.author
-                    views = yt.views
-                    
-                    print(f"Titre: {title}")
-                    print(f"Auteur: {author}")
-                    print(f"Durée: {length} secondes ({length//60}:{length%%60:02d})")
-                    print(f"Vues: {views}")
-                    
-                    # Vérifier la durée (max 1 heure)
-                    if length > 3600:  # 1 heure
-                        raise ValueError(f"Vidéo trop longue: {length//60} minutes (max 60 min)")
-                    
-                    # Obtenir le stream de plus haute résolution
-                    stream = yt.streams.get_highest_resolution()
-                    
-                    if not stream:
-                        # Fallback: essayer progressive mp4
-                        stream = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
-                    
-                    if not stream:
-                        # Fallback ultime: premier stream disponible
-                        stream = yt.streams.first()
-                    
-                    if not stream:
-                        raise ValueError("Aucun stream disponible pour cette vidéo")
-                    
-                    print(f"Résolution: {stream.resolution}")
-                    print(f"Format: {stream.mime_type}")
-                    print(f"Taille: {stream.filesize_mb:.1f} MB")
-                    
-                    # Télécharger dans le répertoire spécifié
-                    print("\\nDémarrage du téléchargement...")
-                    filename = stream.download(output_path=str(download_dir))
-                    
-                    print("\\nTéléchargement terminé!")
-                    
-                    # Vérifier que le fichier existe
-                    if not os.path.exists(filename):
-                        raise ValueError("Le fichier téléchargé n'existe pas")
-                    
-                    file_size = os.path.getsize(filename)
-                    
-                    # Retourner le résultat en JSON
-                    result = {
-                        "status": "success",
-                        "title": title,
-                        "author": author,
-                        "url": url,
-                        "downloadPath": filename,
-                        "fileName": os.path.basename(filename),
-                        "duration": length,
-                        "views": views,
-                        "fileSize": file_size,
-                        "resolution": stream.resolution,
-                        "format": stream.mime_type,
-                        "message": "Téléchargement terminé avec succès"
-                    }
-                    
-                    print("\\nJSON_RESULT:" + json.dumps(result, ensure_ascii=False))
-                    
-                except Exception as e:
-                    print(f"\\nErreur: {str(e)}")
-                    print(f"Type d'erreur: {type(e).__name__}")
-                    traceback.print_exc()
-                    
-                    error_result = {
-                        "status": "error",
-                        "error": str(e),
-                        "errorType": type(e).__name__,
-                        "url": '%s'
-                    }
-                    print("\\nJSON_RESULT:" + json.dumps(error_result, ensure_ascii=False))
-                    sys.exit(1)
-            
-            if __name__ == "__main__":
-                download_video()
-            """, downloadPath, url, url);
+                from pytubefix import YouTube
+                from pytubefix.cli import on_progress
+                import json
+                import sys
+                import os
+                from pathlib import Path
+                import traceback
+                
+                def download_video():
+                    try:
+                        # Créer le dossier de téléchargement
+                        download_dir = Path('%s')
+                        download_dir.mkdir(exist_ok=True, parents=True)
+                
+                        # URL à télécharger
+                        url = '%s'
+                
+                        print(f"Démarrage du téléchargement: {url}")
+                
+                        # Créer l'objet YouTube avec callback de progression
+                        yt = YouTube(url, on_progress_callback=on_progress)
+                
+                        # Récupérer les informations de la vidéo
+                        title = yt.title
+                        length = yt.length
+                        author = yt.author
+                        views = yt.views
+                
+                        print(f"Titre: {title}")
+                        print(f"Auteur: {author}")
+                        print(f"Durée: {length} secondes ({length//60}:{length%%60:02d})")
+                        print(f"Vues: {views}")
+                
+                        # Vérifier la durée (max 1 heure)
+                        if length > 3600:  # 1 heure
+                            raise ValueError(f"Vidéo trop longue: {length//60} minutes (max 60 min)")
+                
+                        # Obtenir le stream de plus haute résolution
+                        stream = yt.streams.get_highest_resolution()
+                
+                        if not stream:
+                            # Fallback: essayer progressive mp4
+                            stream = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
+                
+                        if not stream:
+                            # Fallback ultime: premier stream disponible
+                            stream = yt.streams.first()
+                
+                        if not stream:
+                            raise ValueError("Aucun stream disponible pour cette vidéo")
+                
+                        print(f"Résolution: {stream.resolution}")
+                        print(f"Format: {stream.mime_type}")
+                        print(f"Taille: {stream.filesize_mb:.1f} MB")
+                
+                        # Télécharger dans le répertoire spécifié
+                        print("\\nDémarrage du téléchargement...")
+                        filename = stream.download(output_path=str(download_dir))
+                
+                        print("\\nTéléchargement terminé!")
+                
+                        # Vérifier que le fichier existe
+                        if not os.path.exists(filename):
+                            raise ValueError("Le fichier téléchargé n'existe pas")
+                
+                        file_size = os.path.getsize(filename)
+                
+                        # Retourner le résultat en JSON
+                        result = {
+                            "status": "success",
+                            "title": title,
+                            "author": author,
+                            "url": url,
+                            "downloadPath": filename,
+                            "fileName": os.path.basename(filename),
+                            "duration": length,
+                            "views": views,
+                            "fileSize": file_size,
+                            "resolution": stream.resolution,
+                            "format": stream.mime_type,
+                            "message": "Téléchargement terminé avec succès"
+                        }
+                
+                        print("\\nJSON_RESULT:" + json.dumps(result, ensure_ascii=False))
+                
+                    except Exception as e:
+                        print(f"\\nErreur: {str(e)}")
+                        print(f"Type d'erreur: {type(e).__name__}")
+                        traceback.print_exc()
+                
+                        error_result = {
+                            "status": "error",
+                            "error": str(e),
+                            "errorType": type(e).__name__,
+                            "url": '%s'
+                        }
+                        print("\\nJSON_RESULT:" + json.dumps(error_result, ensure_ascii=False))
+                        sys.exit(1)
+                
+                if __name__ == "__main__":
+                    download_video()
+                """, downloadPath, url, url);
     }
 
     /**
@@ -398,6 +401,7 @@ public class YoutubeDownloadService {
     /**
      * Télécharge une vidéo YouTube et retourne les détails complets en JSON
      * (Utile si vous voulez plus d'informations dans le futur)
+     *
      * @param url URL de la vidéo YouTube
      * @return JSON avec le résultat du téléchargement
      */

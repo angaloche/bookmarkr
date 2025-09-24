@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class MonController {
-    
+
     @GetMapping("/profile")
     public String profile(final @AuthenticationPrincipal UserDetails userDetails, final Model model) {
         model.addAttribute("username", userDetails.getUsername());

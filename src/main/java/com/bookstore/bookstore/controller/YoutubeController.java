@@ -153,7 +153,8 @@ public class YoutubeController {
     public static class DownloadRequest {
         private String url;
 
-        public DownloadRequest() {}
+        public DownloadRequest() {
+        }
 
         public DownloadRequest(String url) {
             this.url = url;

@@ -1,103 +1,109 @@
 <!doctype html>
 <html lang="en" xmlns:th="https://www.thymeleaf.com">
 <head>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Bootstrap CSS -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-	crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous">
 
-<title>Book-Store</title>
+    <title>Book-Store</title>
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="/">Bookmarkr</a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="/">Home</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="available_books">Available Books</a></li>
-					<li class="nav-item"><a class="nav-link" href="my_books">My
-							Book</a></li>
-				</ul>
-				<div>
-					<a class="nav-link text-white" href="book_register">New Book
-						Register</a>
-					<form th:action="@{/logout}" method="post" class="m-0">
-						<button type="submit" class="btn btn-outline-light">
-							<i class="fas fa-sign-out-alt me-1"></i>Déconnexion
-						</button>
-					</form>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Bookmarkr</a>
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link active"
+                                        aria-current="page" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link"
+                                        href="available_books">Available Books</a></li>
+                <li class="nav-item"><a class="nav-link" href="my_books">My
+                    Book</a></li>
+            </ul>
+            <div>
+                <a class="nav-link text-white" href="book_register">New Book
+                    Register</a>
+                <form th:action="@{/logout}" method="post" class="m-0">
+                    <button type="submit" class="btn btn-outline-light">
+                        <i class="fas fa-sign-out-alt me-1"></i>Déconnexion
+                    </button>
+                </form>
 
 
-				</div>
-			</div>
-		</div>
-	</nav>
+            </div>
+        </div>
+    </div>
+</nav>
 
-	<div class="container text-center my-5">
-		<h1>Mémothèque</h1>
-		<h6>Une Mémothèque peut se définir comme une sorte de “mémoire personnelle des lectures à venir et passées”. C’est un mot-valise entre mémoire et bibliothèque. L’idée est de rassembler, organiser et retrouver facilement les titres de livres qu’on souhaite lire, qu’on a déjà lus ou qu’on veut garder en mémoire pour plus tard.
+<div class="container text-center my-5">
+    <h1>Mémothèque</h1>
+    <h6>Une Mémothèque peut se définir comme une sorte de “mémoire personnelle des lectures à venir et passées”. C’est
+        un mot-valise entre mémoire et bibliothèque. L’idée est de rassembler, organiser et retrouver facilement les
+        titres de livres qu’on souhaite lire, qu’on a déjà lus ou qu’on veut garder en mémoire pour plus tard.
 
-			Concept
+        Concept
 
-			La Mémothèque n’est pas juste une liste : c’est une base vivante de références. Elle sert à :
+        La Mémothèque n’est pas juste une liste : c’est une base vivante de références. Elle sert à :
 
-			Stocker les titres de livres repérés (dans une librairie, un article, une discussion).
+        Stocker les titres de livres repérés (dans une librairie, un article, une discussion).
 
-			Classer les ouvrages par thèmes, genres, auteurs ou priorités.
+        Classer les ouvrages par thèmes, genres, auteurs ou priorités.
 
-			Noter son ressenti ou un bref commentaire une fois la lecture terminée.
+        Noter son ressenti ou un bref commentaire une fois la lecture terminée.
 
-			Garder un historique qui devient une mémoire littéraire personnelle.
+        Garder un historique qui devient une mémoire littéraire personnelle.
 
-			Comment l’utiliser
+        Comment l’utiliser
 
-			Ajouter un livre
-			Chaque fois que tu entends parler d’un ouvrage, tu l’ajoutes dans ta Mémothèque avec le titre, l’auteur et éventuellement la source (“vu dans une critique”, “recommandé par un ami”, etc.).
+        Ajouter un livre
+        Chaque fois que tu entends parler d’un ouvrage, tu l’ajoutes dans ta Mémothèque avec le titre, l’auteur et
+        éventuellement la source (“vu dans une critique”, “recommandé par un ami”, etc.).
 
-			Organiser ta pile à lire
-			Tu peux taguer les livres (science-fiction, philosophie, roman historique, etc.), fixer une priorité (“urgent”, “à lire cet été”), ou marquer ceux qui sont déjà en ta possession.
+        Organiser ta pile à lire
+        Tu peux taguer les livres (science-fiction, philosophie, roman historique, etc.), fixer une priorité (“urgent”,
+        “à lire cet été”), ou marquer ceux qui sont déjà en ta possession.
 
-			Suivre ta progression
-			Quand tu commences un livre, tu le passes en “en cours”. Une fois terminé, tu le marques comme “lu” et tu peux ajouter une note ou un résumé.
+        Suivre ta progression
+        Quand tu commences un livre, tu le passes en “en cours”. Une fois terminé, tu le marques comme “lu” et tu peux
+        ajouter une note ou un résumé.
 
-			Explorer ta mémoire de lecteur
-			Ta Mémothèque devient une carte de ton parcours de lecture, utile pour partager des recommandations ou retrouver facilement une référence oubliée.
+        Explorer ta mémoire de lecteur
+        Ta Mémothèque devient une carte de ton parcours de lecture, utile pour partager des recommandations ou retrouver
+        facilement une référence oubliée.
 
-			Dans un contexte numérique / microservices
+        Dans un contexte numérique / microservices
 
-			Si on imagine une application “Mémothèque” dans ton cluster :
+        Si on imagine une application “Mémothèque” dans ton cluster :
 
-			Un microservice gère l’ajout et la consultation des titres.
+        Un microservice gère l’ajout et la consultation des titres.
 
-			Un autre pourrait gérer les notes et commentaires.
+        Un autre pourrait gérer les notes et commentaires.
 
-			Une base de données stocke les entrées.
+        Une base de données stocke les entrées.
 
-			Une interface web ou mobile permet de naviguer dans cette “bibliothèque de mémoire”.
+        Une interface web ou mobile permet de naviguer dans cette “bibliothèque de mémoire”.
 
-			En somme, la Mémothèque est ton carnet de lecture augmenté, toujours accessible et extensible.</h6>
-		<img alt="backgroung image" class="img-fluid" src="/images/bg-img.png">
-	</div>
+        En somme, la Mémothèque est ton carnet de lecture augmenté, toujours accessible et extensible.</h6>
+    <img alt="backgroung image" class="img-fluid" src="/images/bg-img.png">
+</div>
 
-	<!-- Option 1: Bootstrap Bundle with Popper -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-		crossorigin="anonymous"></script>
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 </body>
 </html>
