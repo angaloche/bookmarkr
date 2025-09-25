@@ -26,6 +26,10 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/")
                         .permitAll()
                 )
+                .rememberMe(remember -> remember
+                        .key("bookstoreSecretKey") // clé de signature, choisis une chaîne robuste
+                        .tokenValiditySeconds(7 * 24 * 60 * 60) // 7 jours
+                )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
