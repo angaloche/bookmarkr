@@ -13,12 +13,409 @@
             integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
             crossorigin="anonymous">
 
-    <title>Book-Store</title>
+    <title>My Books - Book-Store</title>
+
+    <style>
+        /* Variables pour les couleurs Google */
+        :root {
+            --google-blue: #4285f4;
+            --google-red: #ea4335;
+            --google-yellow: #fbbc04;
+            --google-green: #34a853;
+            --google-blue-light: #e8f0fe;
+            --google-red-light: #fce8e6;
+            --google-yellow-light: #fef7e0;
+            --google-green-light: #e6f4ea;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* Navbar colorée */
+        .navbar-google {
+            background: linear-gradient(90deg, var(--google-blue), var(--google-green), var(--google-yellow), var(--google-red)) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 20px;
+            margin: 0 5px;
+            padding: 8px 16px !important;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive cards mobile */
+        @media (max-width: 768px) {
+            .table-responsive-custom {
+                display: none;
+            }
+
+            .mobile-cards {
+                display: block;
+            }
+
+            .book-card {
+                background: white;
+                border-radius: 24px;
+                margin-bottom: 1.5rem;
+                padding: 1.5rem;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+                border: 3px solid transparent;
+                background-clip: padding-box;
+                position: relative;
+                overflow: hidden;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .book-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 6px;
+                background: linear-gradient(90deg, var(--google-blue), var(--google-green), var(--google-yellow), var(--google-red));
+            }
+
+            .book-card:hover {
+                transform: translateY(-8px) scale(1.02);
+                box-shadow: 0 16px 48px rgba(0,0,0,0.15);
+            }
+
+            .book-card h6 {
+                color: #5f6368;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                font-size: 0.8rem;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            .book-title {
+                font-size: 1.3rem;
+                font-weight: 700;
+                color: var(--google-blue);
+                margin-bottom: 0.75rem;
+                line-height: 1.3;
+            }
+
+            .book-author {
+                color: var(--google-green);
+                font-weight: 500;
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+            }
+
+            .notes-section {
+                background: linear-gradient(135deg, var(--google-yellow-light), var(--google-green-light));
+                border-radius: 16px;
+                padding: 1.2rem;
+                margin-bottom: 1.5rem;
+                border: 2px solid var(--google-yellow);
+            }
+
+            .notes-textarea {
+                border: none;
+                background: transparent;
+                resize: vertical;
+                min-height: 100px;
+                font-size: 1rem;
+                font-weight: 400;
+            }
+
+            .notes-textarea:focus {
+                outline: none;
+                background: white;
+                border-radius: 12px;
+                padding: 12px;
+                box-shadow: 0 4px 16px rgba(52, 168, 83, 0.2);
+            }
+
+            .delete-btn {
+                background: linear-gradient(135deg, var(--google-red), #d33b2c);
+                border: none;
+                color: white;
+                padding: 12px 24px;
+                border-radius: 50px;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                width: 100%;
+                justify-content: center;
+                font-weight: 600;
+                font-size: 1rem;
+                box-shadow: 0 4px 16px rgba(234, 67, 53, 0.3);
+            }
+
+            .delete-btn:hover {
+                color: white;
+                transform: translateY(-3px);
+                box-shadow: 0 8px 24px rgba(234, 67, 53, 0.4);
+                background: linear-gradient(135deg, #d33b2c, #b52d20);
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-cards {
+                display: none;
+            }
+
+            .table-responsive-custom {
+                display: block;
+            }
+        }
+
+        /* Conteneur principal */
+        .main-container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        @media (min-width: 768px) {
+            .main-container {
+                max-width: 95%;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .main-container {
+                max-width: 85%;
+            }
+        }
+
+        /* En-tête joyeux */
+        .page-header {
+            background: linear-gradient(135deg, var(--google-blue), var(--google-green));
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(255,255,255,0.05) 10px,
+                    rgba(255,255,255,0.05) 20px
+            );
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(-50px) translateY(-50px); }
+            100% { transform: translateX(50px) translateY(50px); }
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin-top: 0.5rem;
+            font-weight: 400;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Tableau version desktop */
+        .table-container {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+        }
+
+        .table th {
+            background: linear-gradient(90deg, var(--google-blue), var(--google-green));
+            color: white;
+            font-weight: 600;
+            padding: 1.2rem;
+            font-size: 1rem;
+            border: none;
+        }
+
+        .table td {
+            padding: 1.2rem;
+            vertical-align: middle;
+            border-color: #f1f3f4;
+        }
+
+        .table tbody tr:hover {
+            background: linear-gradient(90deg, var(--google-blue-light), var(--google-green-light));
+        }
+
+        .table textarea {
+            border: 2px solid var(--google-yellow);
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 0.95rem;
+            min-height: 80px;
+            background: var(--google-yellow-light);
+            transition: all 0.3s ease;
+        }
+
+        .table textarea:focus {
+            border-color: var(--google-green);
+            background: white;
+            box-shadow: 0 4px 16px rgba(52, 168, 83, 0.2);
+        }
+
+        .delete-link-desktop {
+            color: var(--google-red);
+            font-size: 1.5rem;
+            text-decoration: none;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+        }
+
+        .delete-link-desktop:hover {
+            color: white;
+            background: var(--google-red);
+            transform: scale(1.2) rotate(10deg);
+            box-shadow: 0 4px 16px rgba(234, 67, 53, 0.4);
+        }
+
+        /* État vide coloré */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .empty-state i {
+            font-size: 5rem;
+            background: linear-gradient(45deg, var(--google-blue), var(--google-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            color: var(--google-blue);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            color: #5f6368;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-google {
+            background: linear-gradient(135deg, var(--google-blue), var(--google-green));
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 16px rgba(66, 133, 244, 0.3);
+        }
+
+        .btn-google:hover {
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(66, 133, 244, 0.4);
+        }
+
+        /* Animations */
+        .book-card {
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive mobile navbar */
+        @media (max-width: 576px) {
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+            }
+
+            .page-header {
+                padding: 2rem 0;
+            }
+        }
+
+        /* Pulse effect pour les éléments interactifs */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(66, 133, 244, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(66, 133, 244, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(66, 133, 244, 0);
+            }
+        }
+    </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-google">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Bookmarkr</a>
+        <a class="navbar-brand" href="/">
+            <i class="fas fa-book-reader me-2"></i>📚 Bookmarkr
+        </a>
         <button class="navbar-toggler" type="button"
                 data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -27,44 +424,125 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link active"
-                                        aria-current="page" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link"
-                                        href="available_books">Available Books</a></li>
-                <li class="nav-item"><a class="nav-link" href="my_books">My
-                    Book</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="fas fa-home me-1"></i>🏠 Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="available_books">
+                        <i class="fas fa-books me-1"></i>📖 Available Books
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="my_books">
+                        <i class="fas fa-bookmark me-1"></i>⭐ My Books
+                    </a>
+                </li>
             </ul>
             <div>
-                <a class="nav-link text-white" href="book_register">New Book
-                    Register</a>
-
+                <a class="nav-link text-white" href="book_register">
+                    <i class="fas fa-plus me-1"></i>➕ New Book Register
+                </a>
             </div>
         </div>
     </div>
 </nav>
 
-<div class="container my-5 col-md-6">
-    <table class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th scope="col">Book Name</th>
-            <th scope="col">Author</th>
-            <th scope="col">Notes</th>
-            <th scope="col">Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="b :${mybook}">
-            <td th:text="${b.name}"></td>
-            <td th:text="${b.author}"></td>
-            <td>
-                <textarea th:text="${b.notes}" class="form-control"></textarea>
-            </td>
-            <td><a style="color: red" th:href="@{/deleteMyList/{id}(id = ${b.id})}"><i
-                    class="fa-solid fa-trash"></i></a></td>
-        </tr>
-        </tbody>
-    </table>
+<div class="page-header">
+    <div class="container">
+        <h1 class="page-title">
+            <i class="fas fa-heart me-2"></i>💖 My Personal Library
+        </h1>
+        <p class="page-subtitle">✨ Your favorite books with love and notes ✨</p>
+    </div>
+</div>
+
+<div class="main-container">
+    <!-- Version tableau pour écrans moyens et grands -->
+    <div class="table-responsive-custom">
+        <div class="table-container">
+            <table class="table table-hover mb-0">
+                <thead>
+                <tr>
+                    <th scope="col">
+                        <i class="fas fa-book me-2"></i>📚 Book Name
+                    </th>
+                    <th scope="col">
+                        <i class="fas fa-user me-2"></i>✍️ Author
+                    </th>
+                    <th scope="col">
+                        <i class="fas fa-sticky-note me-2"></i>📝 My Notes
+                    </th>
+                    <th scope="col">
+                        <i class="fas fa-cogs me-2"></i>⚡ Actions
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="b :${mybook}">
+                    <td>
+                        <strong th:text="${b.name}" style="color: var(--google-blue); font-size: 1.1rem;">Book Title</strong>
+                    </td>
+                    <td>
+                        <em th:text="${b.author}" style="color: var(--google-green); font-weight: 500;">Author Name</em>
+                    </td>
+                    <td style="width: 40%;">
+                        <textarea th:text="${b.notes}" class="form-control" rows="3" placeholder="✏️ Add your thoughts and notes here...">Notes</textarea>
+                    </td>
+                    <td>
+                        <a class="delete-link-desktop"
+                           th:href="@{/deleteMyList/{id}(id = ${b.id})}"
+                           onclick="return confirm('😢 Are you sure you want to remove this book from your library?')"
+                           title="Remove book">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Version cards pour mobile -->
+    <div class="mobile-cards">
+        <div class="row">
+            <div class="col-12" th:each="b :${mybook}">
+                <div class="book-card">
+                    <h6><i class="fas fa-book me-1"></i>📚 BOOK TITLE</h6>
+                    <div class="book-title" th:text="${b.name}">Book Name</div>
+
+                    <h6><i class="fas fa-user me-1"></i>✍️ AUTHOR</h6>
+                    <div class="book-author" th:text="${b.author}">Author Name</div>
+
+                    <h6><i class="fas fa-sticky-note me-1"></i>📝 MY THOUGHTS</h6>
+                    <div class="notes-section">
+                        <textarea th:text="${b.notes}"
+                                  class="form-control notes-textarea"
+                                  rows="4"
+                                  placeholder="✏️ Share your thoughts, favorite quotes, or memorable moments from this book...">Book Notes</textarea>
+                    </div>
+
+                    <a class="delete-btn"
+                       th:href="@{/deleteMyList/{id}(id = ${b.id})}"
+                       onclick="return confirm('😢 Are you sure you want to remove this book from your library?')">
+                        <i class="fa-solid fa-trash"></i>
+                        🗑️ Remove from Library
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Message si aucun livre -->
+        <div class="empty-state" th:if="${#lists.isEmpty(mybook)}">
+            <i class="fas fa-book-open pulse"></i>
+            <h3>🎉 Ready to start your reading adventure?</h3>
+            <p>📚 Your personal library is waiting for its first book! Let's find something amazing to read together.</p>
+            <a href="available_books" class="btn-google">
+                <i class="fas fa-search me-1"></i>🔍 Discover Amazing Books
+            </a>
+        </div>
+    </div>
 </div>
 
 <!-- Option 1: Bootstrap Bundle with Popper -->
@@ -72,5 +550,104 @@
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+
+<script>
+    // Auto-resize des textareas avec animation fluide
+    document.addEventListener('DOMContentLoaded', function() {
+        const textareas = document.querySelectorAll('textarea');
+
+        textareas.forEach(textarea => {
+            // Auto-resize initial
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+
+            // Auto-resize lors de la saisie avec animation
+            textarea.addEventListener('input', function() {
+                this.style.transition = 'height 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                this.style.height = 'auto';
+                this.style.height = this.scrollHeight + 'px';
+            });
+
+            // Effet de focus joyeux
+            textarea.addEventListener('focus', function() {
+                this.style.transform = 'scale(1.02)';
+            });
+
+            textarea.addEventListener('blur', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    });
+
+    // Animation d'entrée progressive et joyeuse pour les cards
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.book-card');
+        cards.forEach((card, index) => {
+            card.style.animationDelay = (index * 0.15) + 's';
+
+            // Petit effet de bounce au survol
+            card.addEventListener('mouseenter', function() {
+                this.style.animation = 'none';
+                setTimeout(() => {
+                    this.style.animation = '';
+                }, 10);
+            });
+        });
+    });
+
+    // Effet de confettis virtuel sur les interactions (simulation)
+    function celebrateAction(element) {
+        element.style.animation = 'pulse 0.6s ease-out';
+        setTimeout(() => {
+            element.style.animation = '';
+        }, 600);
+    }
+
+    // Ajouter des effets sonores virtuels (feedback visuel)
+    document.addEventListener('DOMContentLoaded', function() {
+        const interactiveElements = document.querySelectorAll('button, .btn, .nav-link, .delete-btn, .delete-link-desktop');
+
+        interactiveElements.forEach(element => {
+            element.addEventListener('click', function(e) {
+                // Effet de ripple Google Material
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+
+                ripple.style.cssText = `
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255,255,255,0.6);
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+                animation: ripple 0.6s linear;
+                pointer-events: none;
+            `;
+
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+    });
+
+    // Style pour l'animation ripple
+    const rippleStyle = document.createElement('style');
+    rippleStyle.textContent = `
+    @keyframes ripple {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+`;
+    document.head.appendChild(rippleStyle);
+</script>
 </body>
 </html>

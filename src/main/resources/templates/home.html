@@ -4,6 +4,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://kit.fontawesome.com/a7523498a1.js"
+            crossorigin="anonymous"></script>
 
     <!-- Bootstrap CSS -->
     <link
@@ -12,12 +14,431 @@
             integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
             crossorigin="anonymous">
 
-    <title>Book-Store</title>
+    <title>Home - Mémothèque</title>
+
+    <style>
+        /* Variables pour les couleurs Google */
+        :root {
+            --google-blue: #4285f4;
+            --google-red: #ea4335;
+            --google-yellow: #fbbc04;
+            --google-green: #34a853;
+            --google-blue-light: #e8f0fe;
+            --google-red-light: #fce8e6;
+            --google-yellow-light: #fef7e0;
+            --google-green-light: #e6f4ea;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Navbar colorée */
+        .navbar-google {
+            background: linear-gradient(90deg, var(--google-blue), var(--google-green), var(--google-yellow), var(--google-red)) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 20px;
+            margin: 0 5px;
+            padding: 8px 16px !important;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .navbar .btn-logout {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            border-radius: 25px;
+            padding: 6px 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+        }
+
+        .navbar .btn-logout:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Hero section */
+        .hero-section {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            padding: 4rem 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            margin: 2rem;
+            animation: heroFloat 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, var(--google-blue), var(--google-green), var(--google-yellow), var(--google-red));
+            border-radius: 32px 32px 0 0;
+        }
+
+        @keyframes heroFloat {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--google-blue), var(--google-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            animation: titleBounce 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.3s both;
+        }
+
+        @keyframes titleBounce {
+            0% {
+                transform: scale(0) rotate(-10deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1) rotate(5deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: #5f6368;
+            font-weight: 400;
+            margin-bottom: 3rem;
+            animation: subtitleSlide 0.8s ease-out 0.5s both;
+        }
+
+        @keyframes subtitleSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: imageReveal 1s ease-out 0.7s both;
+        }
+
+        .hero-image:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 24px 64px rgba(0,0,0,0.15);
+        }
+
+        @keyframes imageReveal {
+            from {
+                opacity: 0;
+                transform: scale(0.8) rotate(-5deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        /* Actions section */
+        .actions-section {
+            margin-top: 3rem;
+            animation: actionsSlide 1s ease-out 0.9s both;
+        }
+
+        @keyframes actionsSlide {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 32px;
+            margin: 0 12px 16px 12px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .action-btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-discover {
+            background: linear-gradient(135deg, var(--google-blue), var(--google-green));
+            color: white;
+        }
+
+        .btn-discover:hover {
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(66, 133, 244, 0.3);
+        }
+
+        .btn-library {
+            background: linear-gradient(135deg, var(--google-yellow), var(--google-red));
+            color: white;
+        }
+
+        .btn-library:hover {
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(251, 188, 4, 0.3);
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, var(--google-green), var(--google-blue));
+            color: white;
+        }
+
+        .btn-add:hover {
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(52, 168, 83, 0.3);
+        }
+
+        /* Background decorations */
+        .bg-decoration {
+            position: fixed;
+            z-index: 1;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .bg-decoration:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .bg-decoration:nth-child(2) {
+            top: 20%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .bg-decoration:nth-child(3) {
+            bottom: 15%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        .bg-decoration:nth-child(4) {
+            bottom: 10%;
+            right: 10%;
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+
+        .emoji-decoration {
+            font-size: 3rem;
+            color: var(--google-blue);
+        }
+
+        /* Stats section */
+        .stats-section {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--google-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #5f6368;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                padding: 2.5rem 1.5rem;
+                margin: 1rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .action-btn {
+                width: 100%;
+                margin: 0 0 12px 0;
+                justify-content: center;
+            }
+
+            .navbar .btn-logout {
+                margin-left: 0;
+                margin-top: 0.5rem;
+            }
+
+            .stats-section {
+                margin-top: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+
+        /* Pulse animation for interactive elements */
+        .pulse-on-load {
+            animation: pulseGlow 2s infinite 2s;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            }
+            50% {
+                box-shadow: 0 8px 24px rgba(66, 133, 244, 0.3);
+            }
+            100% {
+                box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            }
+        }
+
+        /* Navbar actions alignment */
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        @media (max-width: 991px) {
+            .navbar-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+                margin-top: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!-- Background decorations -->
+<div class="bg-decoration emoji-decoration">📚</div>
+<div class="bg-decoration emoji-decoration">✨</div>
+<div class="bg-decoration emoji-decoration">💖</div>
+<div class="bg-decoration emoji-decoration">🎉</div>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-google">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Bookmarkr</a>
+        <a class="navbar-brand" href="/">
+            <i class="fas fa-book-reader me-2"></i>📚 Bookmarkr
+        </a>
         <button class="navbar-toggler" type="button"
                 data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -26,32 +447,88 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link active"
-                                        aria-current="page" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link"
-                                        href="available_books">Available Books</a></li>
-                <li class="nav-item"><a class="nav-link" href="my_books">My
-                    Book</a></li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">
+                        <i class="fas fa-home me-1"></i>🏠 Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="available_books">
+                        <i class="fas fa-books me-1"></i>📖 Available Books
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="my_books">
+                        <i class="fas fa-bookmark me-1"></i>⭐ My Books
+                    </a>
+                </li>
             </ul>
-            <div>
-                <a class="nav-link text-white" href="book_register">New Book
-                    Register</a>
+            <div class="navbar-actions">
+                <a class="nav-link text-white" href="book_register">
+                    <i class="fas fa-plus me-1"></i>➕ New Book Register
+                </a>
                 <form th:action="@{/logout}" method="post" class="m-0">
-                    <button type="submit" class="btn btn-outline-light">
-                        <i class="fas fa-sign-out-alt me-1"></i>Déconnexion
+                    <button type="submit" class="btn btn-logout">
+                        <i class="fas fa-sign-out-alt me-1"></i>🚪 Déconnexion
                     </button>
                 </form>
-
-
             </div>
         </div>
     </div>
 </nav>
 
-<div class="container text-center my-5">
-    <h1>Mémothèque</h1>
-    <h6>Retenez vos livres favoris, lisez quand vous voulez</h6>
-    <img alt="backgroung image" class="img-fluid" src="/images/bg-img.png">
+<div class="hero-section">
+    <div class="hero-content">
+        <h1 class="hero-title">
+            <i class="fas fa-brain me-3"></i>Mémothèque
+        </h1>
+        <h6 class="hero-subtitle">
+            ✨ Retenez vos livres favoris, lisez quand vous voulez 📚
+        </h6>
+
+        <div class="mb-4">
+            <img alt="background image" class="hero-image img-fluid" src="/images/bg-img.png"
+                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDUwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJhIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNDI4NWY0Ii8+PHN0b3Agb2Zmc2V0PSIzMy4zMyUiIHN0eWxlPSJzdG9wLWNvbG9yOiMzNGE4NTMiLz48c3RvcCBvZmZzZXQ9IjY2LjY2JSIgc3R5bGU9InN0b3AtY29sb3I6I2ZiYmMwNCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2VhNDMzNSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iMzAwIiBmaWxsPSJ1cmwoI2EpIiByeD0iMjAiLz48Y2lyY2xlIGN4PSIxNTAiIGN5PSIxMDAiIHI9IjQwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMikiLz48Y2lyY2xlIGN4PSIzNTAiIGN5PSIyMDAiIHI9IjYwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiLz48cG9seWdvbiBwb2ludHM9IjI1MCwxMDAgMzAwLDE1MCAyMDAsMTUwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMTUpIi8+PHRleHQgeD0iMjUwIiB5PSIyNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7wn5OaIERpc2NvdmVyIEJvb2tzIPCfk5o8L3RleHQ+PC9zdmc+'">
+        </div>
+
+        <div class="actions-section">
+            <a href="available_books" class="action-btn btn-discover pulse-on-load">
+                <i class="fas fa-search"></i>
+                🔍 Discover Amazing Books
+            </a>
+            <a href="my_books" class="action-btn btn-library">
+                <i class="fas fa-heart"></i>
+                💖 My Personal Library
+            </a>
+            <a href="book_register" class="action-btn btn-add">
+                <i class="fas fa-plus-circle"></i>
+                ➕ Add New Book
+            </a>
+        </div>
+
+        <div class="stats-section">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="stat-item">
+                        <div class="stat-number">📚</div>
+                        <div class="stat-label">Your Books</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-item">
+                        <div class="stat-number">✨</div>
+                        <div class="stat-label">Magic Reads</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-item">
+                        <div class="stat-number">💖</div>
+                        <div class="stat-label">Favorites</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Option 1: Bootstrap Bundle with Popper -->
@@ -59,5 +536,135 @@
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+
+<script>
+    // Animations d'entrée spectaculaires
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animation des boutons d'action avec délai
+        const actionBtns = document.querySelectorAll('.action-btn');
+        actionBtns.forEach((btn, index) => {
+            btn.style.opacity = '0';
+            btn.style.transform = 'translateY(30px)';
+
+            setTimeout(() => {
+                btn.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                btn.style.opacity = '1';
+                btn.style.transform = 'translateY(0)';
+            }, 1000 + (index * 200));
+        });
+
+        // Animation des stats
+        const statItems = document.querySelectorAll('.stat-item');
+        statItems.forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'scale(0.8)';
+
+            setTimeout(() => {
+                item.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                item.style.opacity = '1';
+                item.style.transform = 'scale(1)';
+            }, 1400 + (index * 100));
+        });
+    });
+
+    // Effets de parallax subtils pour les décorations
+    document.addEventListener('mousemove', function(e) {
+        const decorations = document.querySelectorAll('.bg-decoration');
+        const mouseX = e.clientX / window.innerWidth;
+        const mouseY = e.clientY / window.innerHeight;
+
+        decorations.forEach((decoration, index) => {
+            const speed = (index + 1) * 0.02;
+            const x = (mouseX - 0.5) * 20 * speed;
+            const y = (mouseY - 0.5) * 20 * speed;
+
+            decoration.style.transform = `translate(${x}px, ${y}px) rotate(${x * 0.5}deg)`;
+        });
+    });
+
+    // Effet ripple sur les boutons d'action
+    document.addEventListener('DOMContentLoaded', function() {
+        const actionBtns = document.querySelectorAll('.action-btn');
+
+        actionBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+
+                ripple.style.cssText = `
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(255,255,255,0.6);
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        animation: ripple 0.6s linear;
+                        pointer-events: none;
+                        z-index: 1;
+                    `;
+
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+    });
+
+    // Animation de l'image au scroll (si visible)
+    document.addEventListener('scroll', function() {
+        const heroImage = document.querySelector('.hero-image');
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -0.5;
+
+        if (heroImage) {
+            heroImage.style.transform = `translateY(${rate}px) scale(${1 + scrolled * 0.0001})`;
+        }
+    });
+
+    // Effet de typing pour le sous-titre (simulation)
+    document.addEventListener('DOMContentLoaded', function() {
+        const subtitle = document.querySelector('.hero-subtitle');
+        const originalText = subtitle.textContent;
+
+        // Effet de brillance périodique
+        setInterval(() => {
+            subtitle.style.textShadow = '0 0 20px rgba(66, 133, 244, 0.5)';
+            setTimeout(() => {
+                subtitle.style.textShadow = 'none';
+            }, 1000);
+        }, 8000);
+    });
+
+    // Animation des émojis flottants
+    document.addEventListener('DOMContentLoaded', function() {
+        const decorations = document.querySelectorAll('.emoji-decoration');
+
+        decorations.forEach(decoration => {
+            // Rotation aléatoire initiale
+            decoration.style.transform += ` rotate(${Math.random() * 360}deg)`;
+
+            // Animation continue
+            setInterval(() => {
+                const currentTransform = decoration.style.transform;
+                decoration.style.transform = currentTransform + ` rotate(${Math.random() * 20 - 10}deg)`;
+            }, 3000);
+        });
+    });
+
+    // Style pour l'animation ripple
+    const rippleStyle = document.createElement('style');
+    rippleStyle.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+    document.head.appendChild(rippleStyle);
+</script>
 </body>
 </html>
