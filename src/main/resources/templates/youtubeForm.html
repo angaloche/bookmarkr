@@ -2,47 +2,751 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Télécharger une vidéo YouTube</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>YouTube Video Downloader - Bookmarkr</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /* Variables pour les couleurs Google */
+        :root {
+            --google-blue: #4285f4;
+            --google-red: #ea4335;
+            --google-yellow: #fbbc04;
+            --google-green: #34a853;
+            --google-blue-light: #e8f0fe;
+            --google-red-light: #fce8e6;
+            --google-yellow-light: #fef7e0;
+            --google-green-light: #e6f4ea;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Navbar colorée */
+        .navbar-google {
+            background: linear-gradient(90deg, var(--google-blue), var(--google-green), var(--google-yellow), var(--google-red)) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 20px;
+            margin: 0 5px;
+            padding: 8px 16px !important;
+            color: white !important;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .navbar .btn-logout {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            border-radius: 25px;
+            padding: 6px 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+        }
+
+        .navbar .btn-logout:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-2px);
+        }
+
+        /* En-tête joyeux */
+        .page-header {
+            background: linear-gradient(135deg, var(--google-red), var(--google-yellow));
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(255,255,255,0.05) 10px,
+                    rgba(255,255,255,0.05) 20px
+            );
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(-50px) translateY(-50px); }
+            100% { transform: translateX(50px) translateY(50px); }
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+            position: relative;
+            z-index: 2;
+            animation: titleBounce 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes titleBounce {
+            0% {
+                transform: scale(0) rotate(-10deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1) rotate(5deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin-top: 0.5rem;
+            font-weight: 400;
+            position: relative;
+            z-index: 2;
+            animation: subtitleSlide 0.8s ease-out 0.3s both;
+        }
+
+        @keyframes subtitleSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Conteneur principal */
+        .main-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Card du formulaire */
+        .youtube-card {
+            background: white;
+            border-radius: 32px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            animation: cardFloat 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .youtube-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, var(--google-red), var(--google-yellow));
+            border-radius: 32px 32px 0 0;
+        }
+
+        @keyframes cardFloat {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Formulaire stylé */
+        .youtube-form {
+            position: relative;
+        }
+
+        .form-control {
+            border: 3px solid #f1f3f4;
+            border-radius: 25px;
+            padding: 1.25rem 1.5rem;
+            font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #fafafa;
+            font-family: inherit;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .form-control:focus {
+            border-color: var(--google-red);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(234, 67, 53, 0.1), 0 8px 24px rgba(0,0,0,0.1);
+            outline: none;
+            transform: translateY(-2px);
+        }
+
+        .form-control:hover {
+            border-color: var(--google-yellow);
+            background: white;
+            transform: translateY(-1px);
+        }
+
+        .form-control::placeholder {
+            color: #9aa0a6;
+            font-style: italic;
+        }
+
+        /* Bouton de téléchargement */
+        .btn-download {
+            background: linear-gradient(135deg, var(--google-red), var(--google-yellow));
+            border: none;
+            color: white;
+            padding: 1.25rem 2rem;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 24px rgba(234, 67, 53, 0.3);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            min-width: 180px;
+        }
+
+        .btn-download:hover {
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(234, 67, 53, 0.4);
+            background: linear-gradient(135deg, #d33b2c, #f9c74f);
+        }
+
+        .btn-download:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-download::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .btn-download:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Instructions */
+        .instructions {
+            margin-top: 3rem;
+            text-align: center;
+            animation: instructionsSlide 0.8s ease-out 0.5s both;
+        }
+
+        @keyframes instructionsSlide {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .instruction-item {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .instruction-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .instruction-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .instruction-icon.step1 { color: var(--google-blue); }
+        .instruction-icon.step2 { color: var(--google-green); }
+        .instruction-icon.step3 { color: var(--google-yellow); }
+
+        .instruction-text {
+            color: #5f6368;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        /* Background decorations */
+        .bg-decoration {
+            position: fixed;
+            z-index: 1;
+            opacity: 0.1;
+            animation: floatDecoration 8s ease-in-out infinite;
+            font-size: 4rem;
+        }
+
+        .bg-decoration:nth-child(1) {
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .bg-decoration:nth-child(2) {
+            top: 25%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .bg-decoration:nth-child(3) {
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 4s;
+        }
+
+        .bg-decoration:nth-child(4) {
+            bottom: 15%;
+            right: 20%;
+            animation-delay: 6s;
+        }
+
+        @keyframes floatDecoration {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg) scale(1);
+            }
+            25% {
+                transform: translateY(-15px) rotate(10deg) scale(1.1);
+            }
+            50% {
+                transform: translateY(-10px) rotate(-5deg) scale(0.9);
+            }
+            75% {
+                transform: translateY(-20px) rotate(15deg) scale(1.05);
+            }
+        }
+
+        /* Loading state */
+        .btn-loading {
+            position: relative;
+        }
+
+        .btn-loading .spinner {
+            display: none;
+        }
+
+        .btn-loading.loading .spinner {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+
+        .btn-loading.loading .btn-text {
+            opacity: 0.7;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .youtube-card {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+            }
+
+            .youtube-form {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .btn-download {
+                width: 100%;
+                margin-top: 1rem;
+            }
+
+            .form-control {
+                margin-right: 0 !important;
+            }
+
+            .navbar .btn-logout {
+                margin-left: 0;
+                margin-top: 0.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .youtube-card {
+                padding: 1.5rem 1rem;
+            }
+
+            .instruction-item {
+                padding: 1rem;
+            }
+        }
+
+        /* Navbar actions alignment */
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        @media (max-width: 991px) {
+            .navbar-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+                margin-top: 1rem;
+            }
+        }
+
+        /* Success animation */
+        @keyframes success {
+            0% {
+                background: linear-gradient(135deg, var(--google-red), var(--google-yellow));
+            }
+            50% {
+                background: linear-gradient(135deg, var(--google-green), var(--google-blue));
+                transform: scale(1.05);
+            }
+            100% {
+                background: linear-gradient(135deg, var(--google-green), var(--google-blue));
+                transform: scale(1);
+            }
+        }
+    </style>
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/available_books">Available Books</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/my_books">My Books</a>
-            </li>
-        </ul>
-        <div>
-            <a class="nav-link text-white" href="book_register">New Book
-                Register</a>
+<!-- Background decorations -->
+<div class="bg-decoration">🎥</div>
+<div class="bg-decoration">📹</div>
+<div class="bg-decoration">⬇️</div>
+<div class="bg-decoration">✨</div>
 
+<nav class="navbar navbar-expand-lg navbar-dark navbar-google">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <i class="fas fa-book-reader me-2"></i>📚 Bookmarkr
+        </a>
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+               <!-- <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="fas fa-home me-1"></i>🏠 Home
+                    </a>
+                </li>-->
+                <li class="nav-item">
+                    <a class="nav-link" href="/available_books">
+                        <i class="fas fa-books me-1"></i>📖 Available Books
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/my_books">
+                        <i class="fas fa-bookmark me-1"></i>⭐ My Books
+                    </a>
+                </li>
+            </ul>
+            <div class="navbar-actions">
+                <a class="nav-link text-white" href="book_register">
+                    <i class="fas fa-plus me-1"></i>➕ New Book Register
+                </a>
+                <form th:action="@{/logout}" method="post" class="m-0">
+                    <button type="submit" class="btn btn-logout">
+                        <i class="fas fa-sign-out-alt me-1"></i>🚪 Déconnexion
+                    </button>
+                </form>
+            </div>
         </div>
-        <form th:action="@{/logout}" method="post" class="d-flex">
-            <button class="btn btn-outline-light" type="submit">
-                <i class="fas fa-sign-out-alt me-1"></i>Déconnexion
-            </button>
-        </form>
     </div>
 </nav>
 
-<div class="container mt-5">
-    <h1 class="mb-4">Entrer l'URL de la vidéo YouTube</h1>
-    <form th:action="@{/youtube/download}" method="post" class="youtube-form d-flex">
-        <input type="text" name="url" class="form-control me-2"
-               placeholder="https://youtube.com/..." required>
-        <button type="submit" class="btn btn-primary">
-            <i class="fas fa-download me-1"></i>Télécharger
-        </button>
-    </form>
+<div class="page-header">
+    <div class="container">
+        <h1 class="page-title">
+            <i class="fab fa-youtube me-2"></i>🎥 YouTube Downloader
+        </h1>
+        <p class="page-subtitle">✨ Téléchargez vos vidéos YouTube préférées facilement ✨</p>
+    </div>
 </div>
+
+<div class="main-container">
+    <div class="youtube-card">
+        <div class="text-center mb-4">
+            <h2 style="color: var(--google-red); font-weight: 700;">
+                <i class="fas fa-link me-2"></i>📎 Entrer l'URL de la vidéo
+            </h2>
+            <p style="color: #5f6368; font-size: 1.1rem;">
+                Collez simplement le lien de votre vidéo YouTube favorite
+            </p>
+        </div>
+
+        <form th:action="@{/youtube/download}" method="post" class="youtube-form d-flex">
+            <input type="url"
+                   name="url"
+                   class="form-control me-2"
+                   placeholder="🔗 https://youtube.com/watch?v=..."
+                   required
+                   pattern="^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+"
+                   title="Veuillez entrer une URL YouTube valide">
+            <button type="submit" class="btn btn-download btn-loading">
+                <i class="fas fa-spinner spinner me-2"></i>
+                <span class="btn-text">
+                        <i class="fas fa-download me-1"></i>⬇️ Télécharger
+                    </span>
+            </button>
+        </form>
+
+        <div class="instructions">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="instruction-item">
+                        <div class="instruction-icon step1">
+                            <i class="fas fa-copy"></i>
+                        </div>
+                        <div class="instruction-text">
+                            <strong>1. Copiez l'URL</strong><br>
+                            Depuis YouTube
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="instruction-item">
+                        <div class="instruction-icon step2">
+                            <i class="fas fa-paste"></i>
+                        </div>
+                        <div class="instruction-text">
+                            <strong>2. Collez ici</strong><br>
+                            Dans le champ ci-dessus
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="instruction-item">
+                        <div class="instruction-icon step3">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="instruction-text">
+                            <strong>3. Téléchargez</strong><br>
+                            Et profitez ! 🎉
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Animation d'entrée progressive
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animation des instructions avec délai
+        const instructionItems = document.querySelectorAll('.instruction-item');
+        instructionItems.forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+
+            setTimeout(() => {
+                item.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            }, 600 + (index * 200));
+        });
+    });
+
+    // Validation et feedback en temps réel
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlInput = document.querySelector('input[name="url"]');
+        const submitBtn = document.querySelector('.btn-download');
+
+        urlInput.addEventListener('input', function() {
+            const url = this.value;
+            const isValidYouTube = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/.test(url);
+
+            if (url.length > 0) {
+                if (isValidYouTube) {
+                    this.style.borderColor = 'var(--google-green)';
+                    this.style.background = 'var(--google-green-light)';
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = '1';
+                } else {
+                    this.style.borderColor = 'var(--google-red)';
+                    this.style.background = 'var(--google-red-light)';
+                    submitBtn.disabled = true;
+                    submitBtn.style.opacity = '0.6';
+                }
+            } else {
+                this.style.borderColor = '#f1f3f4';
+                this.style.background = '#fafafa';
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+            }
+        });
+
+        // Focus effects
+        urlInput.addEventListener('focus', function() {
+            this.style.transform = 'scale(1.02)';
+        });
+
+        urlInput.addEventListener('blur', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+
+    // Loading state pour le bouton
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('.youtube-form');
+        const submitBtn = document.querySelector('.btn-download');
+
+        form.addEventListener('submit', function(e) {
+            const urlInput = document.querySelector('input[name="url"]');
+
+            if (!urlInput.value.trim()) {
+                e.preventDefault();
+                urlInput.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    urlInput.style.animation = '';
+                }, 500);
+                return;
+            }
+
+            // Activer l'état de chargement
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+
+            // Animation de succès (simulation)
+            setTimeout(() => {
+                submitBtn.style.animation = 'success 0.8s ease-out';
+                setTimeout(() => {
+                    submitBtn.style.animation = '';
+                    submitBtn.classList.remove('loading');
+                    submitBtn.disabled = false;
+                }, 800);
+            }, 2000);
+        });
+    });
+
+    // Effet de ripple sur le bouton
+    document.addEventListener('DOMContentLoaded', function() {
+        const submitBtn = document.querySelector('.btn-download');
+
+        submitBtn.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+
+            ripple.style.cssText = `
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255,255,255,0.8);
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                    animation: ripple 0.6s linear;
+                    pointer-events: none;
+                    z-index: 1;
+                `;
+
+            this.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    // Animation des décorations de fond
+    document.addEventListener('DOMContentLoaded', function() {
+        const decorations = document.querySelectorAll('.bg-decoration');
+
+        decorations.forEach(decoration => {
+            decoration.addEventListener('mouseenter', function() {
+                this.style.transform += ' scale(1.2)';
+                this.style.opacity = '0.3';
+            });
+
+            decoration.addEventListener('mouseleave', function() {
+                this.style.transform = this.style.transform.replace(' scale(1.2)', '');
+                this.style.opacity = '0.1';
+            });
+        });
+    });
+
+    // Styles pour les animations
+    const additionalStyles = document.createElement('style');
+    additionalStyles.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-8px); }
+                75% { transform: translateX(8px); }
+            }
+        `;
+    document.head.appendChild(additionalStyles);
+</script>
 </body>
 </html>
