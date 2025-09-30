@@ -8,7 +8,7 @@
         <version>3.2.10</version>
         <relativePath/>
     </parent>
-    <groupId>com.bookstore</groupId>
+    <groupId>com.bookmarkr</groupId>
     <artifactId>bookmarkr</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>bookmarkr</name>
