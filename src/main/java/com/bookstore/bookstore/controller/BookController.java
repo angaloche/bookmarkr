@@ -25,10 +25,8 @@ import com.bookstore.bookstore.service.MyBookService;
 public class BookController {
     @Autowired
     BookService bookService;
-
     @Autowired
     MyBookService mybookService;
-
     @Autowired
     UserRepository userRepository;
 
@@ -63,6 +61,14 @@ public class BookController {
         bookService.save(book);
         return "redirect:/available_books";
     }
+
+    @PostMapping("/saveMyBook")
+    public String addMyBook(final @AuthenticationPrincipal UserDetails userDetails, final @ModelAttribute MyBookList bookList) {
+        bookList.setUser(getUser(userDetails));
+        mybookService.saveMyBooks(bookList);
+        return "redirect:/my_books";
+    }
+
 
     @GetMapping("/my_books")
     public ModelAndView getMyBooks(final @AuthenticationPrincipal UserDetails userDetails, Model model) {
@@ -104,5 +110,11 @@ public class BookController {
         Book b = bookService.getBookById(id);
         model.addAttribute("book", b);
         return "editbook";
+    }
+    @RequestMapping("/editMyBook/{id}")
+    public String editMyBook(@PathVariable("id") int id, final Model model) {
+        MyBookList b = mybookService.getBookById(id);
+        model.addAttribute("book", b);
+        return "editMyBook";
     }
 }

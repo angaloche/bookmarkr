@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static org.springframework.security.core.userdetails.User.*;
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -26,8 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("Utilisateur non trouvé");
         }
 
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
+        return withUsername(user.getUsername())
                 .password(user.getPassword())
                 .roles("USER")
                 .build();

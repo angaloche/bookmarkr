@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.bookstore.bookstore.entity.User;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,11 @@ public class MyBookService {
         if (book != null && Objects.equals(book.getUser().getId(), user.getId())) {
             myBookRepository.deleteById(id);
         }
+    }
+
+    public MyBookList getBookById(final int id) {
+        return myBookRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
     }
 
 }

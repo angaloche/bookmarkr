@@ -99,6 +99,10 @@
                         <textarea th:text="${b.notes}" class="form-control" rows="3" placeholder="✏️ Add your thoughts and notes here...">Notes</textarea>
                     </td>
                     <td>
+                        <a class="btn btn-edit"
+                           th:href="@{/editMyBook/{id}(id = ${b.id})}">
+                            <i class="fa-solid fa-file-pen"></i>
+                        </a>
                         <a class="delete-link-desktop"
                            th:href="@{/deleteMyList/{id}(id = ${b.id})}"
                            onclick="return confirm('😢 Are you sure you want to remove this book from your library?')"

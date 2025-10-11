@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class MyBookList {
+public class MyBookList extends Item{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -18,6 +18,7 @@ public class MyBookList {
 	private String author;
 	private double price;
 	private String notes;
+
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
